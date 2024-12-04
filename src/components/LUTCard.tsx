@@ -1,14 +1,35 @@
+"use client";
+
 import Image from "next/image";
 import { Download } from "lucide-react";
+import { downloadLut } from "@/utils/lutManager";
+import { MouseEvent } from "react";
 
 type LUT = {
   id: number;
   name: string;
   category: string;
   compatibility: string[];
+  filename: string;
 };
 
 export default function LUTCard({ lut }: { lut: LUT }) {
+  const handleDownload = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      const blob = await downloadLut(lut.filename);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = lut.filename;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading LUT:", error);
+      alert("Failed to download LUT. Please try again.");
+    }
+  };
+
   return (
     <div className="group relative overflow-hidden rounded-xl gradient-border transition-all duration-300 hover:scale-[1.02]">
       <div className="relative aspect-video overflow-hidden">
@@ -33,7 +54,10 @@ export default function LUTCard({ lut }: { lut: LUT }) {
             </span>
           ))}
         </div>
-        <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2.5 font-semibold text-white transition-all duration-300 hover:from-blue-700 hover:to-purple-700 hover:shadow-lg">
+        <button
+          onClick={handleDownload}
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2.5 font-semibold text-white transition-all duration-300 hover:from-blue-700 hover:to-purple-700 hover:shadow-lg"
+        >
           <Download className="h-4 w-4" />
           <span>Download LUT</span>
         </button>
