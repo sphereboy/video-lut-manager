@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import path from "path";
 import fs from "fs/promises";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 
 export async function GET(
   request: NextRequest,
@@ -22,6 +22,7 @@ export async function GET(
     // Construct the file path relative to project root
     const filePath = path.join(
       process.cwd(),
+      "src",
       "assets",
       "luts",
       sanitizedFilename
@@ -43,7 +44,8 @@ export async function GET(
           "Content-Length": stats.size.toString(),
         },
       });
-    } catch (error) {
+    } catch {
+      console.error("File not found:", filePath);
       return new NextResponse("File not found", { status: 404 });
     }
   } catch (error) {
