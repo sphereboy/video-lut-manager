@@ -36,23 +36,78 @@ Visit [http://localhost:3000](http://localhost:3000) to see your LUT library in 
 - MongoDB
 - NextAuth.js
 - TailwindCSS
+- Shadcn/ui Components
 
-## 📦 Installation
+## 📦 Project Structure
+
+```
+src/
+├── app/                # Next.js App Router directory
+│   ├── api/           # API routes
+│   │   ├── auth/      # Authentication endpoints
+│   │   └── luts/      # LUT management endpoints
+│   ├── auth/          # Authentication pages
+│   └── docs/          # Documentation pages
+├── components/        # Reusable UI components
+├── lib/              # Core utilities and configurations
+├── utils/            # Helper functions
+└── assets/           # Static assets
+```
+
+## 🔧 Setup & Installation
 
 1. Clone the repository
-2. Install dependencies: `npm install`
-3. Copy `.env.example` to `.env.local` and fill in your environment variables
-4. Run the development server: `npm run dev`
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure environment variables:
+
+   - Copy `.env.example` to `.env.local`
+   - Required variables:
+     - `MONGODB_URI`: Your MongoDB connection string
+     - `NEXTAUTH_SECRET`: JWT secret for authentication
+     - `NEXTAUTH_URL`: Your application URL
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 🔐 Authentication
+
+The project uses NextAuth.js for authentication with the following features:
+
+- Secure session management
+- JWT-based authentication
+- Protected API routes
+- Role-based access control
+
+## 📡 API Routes
+
+### Authentication
+
+- `POST /api/auth/[...nextauth]` - NextAuth.js authentication endpoints
+
+### LUT Management
+
+- `GET /api/luts` - Retrieve LUT collection
+- `POST /api/luts` - Upload new LUT
+- `PUT /api/luts/:id` - Update LUT metadata
+- `DELETE /api/luts/:id` - Remove LUT
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to:
+
+- Submit bug reports
+- Request features
+- Submit pull requests
+- Follow our code style guidelines
 
 ## 📝 License
 
-MIT License - feel free to use this project as you wish!
-
-<!-- Here's a fun little easter egg for those who read this far! -->
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ```
        +------------+
